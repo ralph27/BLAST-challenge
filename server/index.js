@@ -2,8 +2,18 @@ import express from "express";
 import fs from "fs";
 import { getTimeDifference } from "./utils/getTimeDifference.js";
 import cors from "cors";
+import mongoose from "mongoose";
+import { RoundsSummaryModel } from "./utils/Schemas/RoundsSummary.js";
+import { MembersModel } from "./utils/Schemas/Members.js";
+import { TeamsModel } from "./utils/Schemas/Teams.js";
+import { WinnerModel } from "./utils/Schemas/Winner.js";
+
+import * as dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
+
+await mongoose.connect(process.env.DATABASE_URL);
 
 app.use(cors());
 
@@ -189,6 +199,26 @@ app.get("/", async (req, res) => {
           ),
         };
       }
+
+      // Saving Round Summary to DB
+      const newRound = new RoundsSummaryModel(roundsSummary[round]);
+
+      const team0Map = new Map();
+      roundsSummary[round][teams[0].name.trim()].forEach((member) => {
+        const name = Object.keys(member)[0].toString();
+        team0Map.set(name, member[name]);
+      });
+
+      const team1Map = new Map();
+      roundsSummary[round][teams[1].name.trim()].forEach((member) => {
+        const name = Object.keys(member)[0].toString();
+        team1Map.set(name, member[name]);
+      });
+
+      roundsSummary[round][teams[0].name.trim()] = [team0Map];
+      roundsSummary[round][teams[1].name.trim()] = [team1Map];
+
+      await newRound.save();
       round++;
     }
 
@@ -385,7 +415,32 @@ app.get("/", async (req, res) => {
     }
   }
 
+  // Saving Members to DB
+  const MembersMap = new Map();
+  Object.keys(members).forEach((member) => {
+    const name = member.toString();
+    MembersMap.set(name, members[member]);
+  });
+  const Members = new MembersModel({ members: MembersMap });
+  await Members.save();
+
+  // Saving Teams to DB
+  const Teams = new TeamsModel({ teams });
+  const tes = await Teams.save();
+
+  // Saving Winner to DB
+  const Winner = new WinnerModel({ winner });
+  await Winner.save();
+
   res.json({ teams, members, roundsSummary, winner });
+});
+
+app.get("/delete", async (req, res) => {
+  const response = await RoundsSummaryModel.collection.drop();
+  await MembersModel.collection.drop();
+  await TeamsModel.collection.drop();
+  await WinnerModel.collection.drop();
+  res.send(response);
 });
 
 app.listen(5000, () => console.log("Listening to port 5000"));
