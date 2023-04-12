@@ -2,36 +2,52 @@ import Head from "next/head";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import { useQuery } from "react-query";
-import axios from "axios";
 import Table from "@/components/Table";
-import { useContext, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import RoundInfo from "@/components/RoundInfo";
 import Card from "@/components/Card";
-import { TeamsContext } from "@/context/TeamsContext";
-import { MembersContext } from "@/context/MembersContext";
-import { RoundsSummaryContext } from "@/context/RoundsSummary";
-import { WinnerContext } from "@/context/WinnerContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [roundSelector, setRoundSelector] = useState(1);
-  const { teams, setTeams } = useContext(TeamsContext);
-  const { members, setMembers } = useContext(MembersContext);
-  const { roundsSummary, setRoundsSummary } = useContext(RoundsSummaryContext);
-  const { winner, setWinner } = useContext(WinnerContext);
 
-  const { data, isFetched } = useQuery("Teams", async () => {
-    const res = await axios.get("http://localhost:5000");
-    return res.data;
+  const { data: roundsSummary } = useQuery("Summaries", async () => {
+    const res = await fetch("/api/round", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await res.json();
+    return data;
   });
 
-  if (data && isFetched) {
-    setTeams(data.teams);
-    setMembers(data.members);
-    setRoundsSummary(data.roundsSummary);
-    setWinner(data.winner);
-  }
+  const { data: teams } = useQuery("Teams", async () => {
+    const res = await fetch("/api/teams", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await res.json();
+    return data[0].teams;
+  });
+
+  const { data: winner } = useQuery("Winner", async () => {
+    const res = await fetch("/api/winner", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await res.json();
+    return data[0].winner;
+  });
+
+  const { data: members } = useQuery("Members", async () => {
+    const res = await fetch("/api/members", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await res.json();
+    return data[0].members;
+  });
 
   const mvp = useMemo(() => {
     let maxKills = 0;
@@ -64,7 +80,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {teams && roundsSummary && members && (
+      {roundsSummary && teams && members && winner && (
         <main className={styles.main}>
           <div className={styles.header}>
             <h1 className={styles.headerText}>
@@ -113,6 +129,7 @@ export default function Home() {
             team1={teams[0].name}
             team2={teams[1].name}
             round={roundSelector}
+            roundsSummary={roundsSummary}
           />
 
           <div>

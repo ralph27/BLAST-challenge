@@ -1,9 +1,6 @@
-"use client";
-
 import { useRouter } from "next/router";
 import styles from "@/styles/Details.module.css";
-import { useContext, useMemo, useState } from "react";
-import { MembersContext } from "@/context/MembersContext";
+import { useMemo } from "react";
 import StatCard from "@/components/StatCard";
 import {
   GiBlindfold,
@@ -20,11 +17,20 @@ import {
   GiStomach,
 } from "react-icons/gi";
 import LineChart from "@/components/LineChat";
+import { useQuery } from "react-query";
 
 export default function Page() {
   const router = useRouter();
   const { username } = router.query;
-  const { members, setMembers } = useContext(MembersContext);
+
+  const { data: stats } = useQuery("Members", async () => {
+    const res = await fetch("/api/members", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await res.json();
+    return data[0].members[username];
+  });
 
   const getIcon = (e) => {
     switch (e) {
@@ -47,25 +53,19 @@ export default function Page() {
     }
   };
 
-  const stats = useMemo(() => {
-    if (members) {
-      return members[username];
-    }
-  }, [members]);
-
   const chartData = useMemo(() => {
-    if (members) {
+    if (stats) {
       return {
-        labels: members[username].money?.map((label) => label.timestamp),
+        labels: stats.money?.map((label) => label.timestamp),
         datasets: [
           {
             label: "Balance Over Time",
-            data: members[username].money?.map((label) => label.balance),
+            data: stats.money?.map((label) => label.balance),
           },
         ],
       };
     }
-  }, [members]);
+  }, [stats]);
 
   return (
     <main className={styles.main}>
@@ -138,7 +138,7 @@ export default function Page() {
           </div>
         </div>
       )}
-      {members && <LineChart data={chartData} />}
+      {stats && <LineChart data={chartData} />}
     </main>
   );
 }
