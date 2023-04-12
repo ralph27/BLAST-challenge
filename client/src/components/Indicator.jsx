@@ -1,6 +1,4 @@
-import { RoundsSummaryContext } from "@/context/RoundsSummary";
 import styles from "@/styles/Indicator.module.css";
-import { useContext } from "react";
 import { GiDeathSkull, GiMineExplosion, GiBoltCutter } from "react-icons/gi";
 
 export default function Indicator({

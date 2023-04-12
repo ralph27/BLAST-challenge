@@ -1,7 +1,5 @@
-import { useContext } from "react";
 import Indicator from "./Indicator";
 import styles from "@/styles/RoundInfo.module.css";
-import { RoundsSummaryContext } from "@/context/RoundsSummary";
 
 export default function RoundInfo({ team1, team2, round, roundsSummary }) {
   return (
