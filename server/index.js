@@ -53,6 +53,11 @@ const flashRegex =
   /"([a-zA-Z0-9]+)\s?<(\d+)><(STEAM_\d:\d:\d+)><(TERRORIST|CT|Spectator)?>" blinded for ([0-9]*\.?[0-9]+) by "([a-zA-Z0-9]+)\s?<(\d+)><(STEAM_\d:\d:\d+)><(TERRORIST|CT|Spectator)?>"/;
 
 app.get("/", async (req, res) => {
+  await RoundsSummaryModel.collection.drop();
+  await MembersModel.collection.drop();
+  await TeamsModel.collection.drop();
+  await WinnerModel.collection.drop();
+
   let members = {};
   let roundsSummary = [];
   let teams = [];
@@ -432,15 +437,7 @@ app.get("/", async (req, res) => {
   const Winner = new WinnerModel({ winner });
   await Winner.save();
 
-  res.json({ teams, members, roundsSummary, winner });
-});
-
-app.get("/delete", async (req, res) => {
-  const response = await RoundsSummaryModel.collection.drop();
-  await MembersModel.collection.drop();
-  await TeamsModel.collection.drop();
-  await WinnerModel.collection.drop();
-  res.send(response);
+  res.send("Success");
 });
 
 app.listen(5000, () => console.log("Listening to port 5000"));
