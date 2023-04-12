@@ -1,0 +1,52 @@
+.tableContainer {
+  width: 100%;
+  margin-bottom: 5rem;
+}
+
+.tableWrapper {
+  width: 100%;
+}
+
+.tableWrapper > div > div {
+  padding: 1rem;
+  padding-right: 0;
+}
+
+.tableWrapper > div > div:nth-child(odd) {
+  background: #1f2127;
+}
+
+.tableHeader {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.7rem;
+  justify-content: flex-end;
+  padding-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.tableHeader h1 {
+  width: 50px;
+}
+
+.tableRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+
+.tableInfo {
+  display: grid;
+  grid-template-columns: repeat(5, 50px);
+  gap: 1rem;
+  padding-right: 1rem;
+}
+
+.positive {
+  color: #7ed321;
+}
+
+.negative {
+  color: #d0021b;
+}

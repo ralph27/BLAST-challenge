@@ -1,0 +1,30 @@
+.playerCard {
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+  background-color: #1f2127;
+  box-shadow: 1px 1px black;
+  padding: 1rem 3rem;
+  text-align: center;
+  flex: 1 1 300;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.playerCard:hover {
+  transform: scale(1.1);
+  transition: all 500ms;
+}
+
+.cardTitle {
+  margin-bottom: 5rem;
+}
+
+.cardStat {
+  padding: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.cardStat:nth-child(1) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}

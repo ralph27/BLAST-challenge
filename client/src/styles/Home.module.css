@@ -1,0 +1,90 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #292c34;
+  padding-bottom: 5rem;
+}
+
+.header {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 1px solid #de9b35;
+  padding: 3rem 5rem;
+  background-color: #23262d;
+}
+
+.headerText {
+  font-size: 3rem;
+}
+
+.headerSub {
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+.mainTitle {
+  font-size: 3rem;
+  padding: 2rem 0px;
+}
+
+.tables {
+  width: 80%;
+}
+
+.roundSelector {
+  display: flex;
+  font-size: 1.5rem;
+  gap: 1rem;
+  background-color: #23262d;
+  padding: 1rem 1.5rem;
+  border-radius: 15px;
+  margin-top: 1rem;
+}
+
+.roundSelector p {
+  padding: 0.5rem 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.roundSelector p:hover {
+  background-color: #1f2127 !important;
+}
+
+.cardWrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 230px));
+  width: 90vw;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+@media screen and (max-width: 1100px) {
+  .header {
+    padding: 2rem 2rem;
+  }
+
+  .headerText {
+    font-size: 2.3rem;
+  }
+
+  .headerSub {
+    font-size: 1.1rem;
+  }
+
+  .roundSelector {
+    gap: 0.2rem;
+  }
+
+  .roundSelector p {
+    padding: 0.4rem 0.6rem;
+  }
+}

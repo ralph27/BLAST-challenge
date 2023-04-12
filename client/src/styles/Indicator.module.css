@@ -1,0 +1,46 @@
+.indicatorWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.indicator {
+  width: 80px;
+  height: 80px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  z-index: 1;
+  background-color: #292c34;
+}
+
+.indicatorScoreLeft {
+  font-size: 2rem;
+  background-color: rebeccapurple;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2rem;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  transform: translateX(40%);
+  z-index: 0;
+  padding-right: 4rem;
+}
+
+.indicatorScoreRight {
+  font-size: 2rem;
+  background-color: rebeccapurple;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2rem;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  transform: translateX(-40%);
+  z-index: 0;
+  padding-left: 4rem;
+}

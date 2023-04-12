@@ -1,0 +1,15 @@
+.statCard {
+  justify-content: space-between;
+  align-items: flex-start;
+  border-radius: 5px;
+  background-color: #1f2127;
+  box-shadow: 1px 1px black;
+  padding: 1rem 3rem;
+
+  /* flex: 1 1 300; */
+
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
